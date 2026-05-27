@@ -48,13 +48,14 @@ function EditEvent() {
 
   const save = async () => {
     setSaving(true);
-    const payload = {
+    if (!form.starts_at) { setSaving(false); return toast.error("Start date is required"); }
+    const payload: any = {
       title: form.title,
       slug: form.slug || slugify(form.title),
       description: form.description,
       category_id: form.category_id || null,
       city: form.city, venue: form.venue, address: form.address || null,
-      starts_at: form.starts_at ? new Date(form.starts_at).toISOString() : null,
+      starts_at: new Date(form.starts_at).toISOString(),
       ends_at: form.ends_at ? new Date(form.ends_at).toISOString() : null,
       image_url: form.image_url || null, banner_url: form.banner_url || null,
       status: form.status, featured: form.featured,

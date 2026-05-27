@@ -21,7 +21,7 @@ function AdminEvents() {
     if (error) toast.error(error.message); else { toast.success("Updated"); load(); }
   };
   const setStatus = async (id: string, status: string) => {
-    const { error } = await supabase.from("events").update({ status }).eq("id", id);
+    const { error } = await supabase.from("events").update({ status: status as Row["status"] }).eq("id", id);
     if (error) toast.error(error.message); else { toast.success("Updated"); load(); }
   };
   const remove = async (id: string) => {
