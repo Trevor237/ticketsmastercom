@@ -27,7 +27,7 @@ export function useSettings() {
       });
 
     const ch = supabase
-      .channel("settings-realtime")
+      .channel(`settings-realtime-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "settings" },
