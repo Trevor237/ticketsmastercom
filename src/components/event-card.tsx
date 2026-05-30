@@ -14,10 +14,15 @@ export type EventCardData = {
   status: string;
   min_price_cents?: number | null;
   currency?: string;
+  remaining?: number | null;
 };
 
 export function EventCard({ event }: { event: EventCardData }) {
-  const soldOut = event.status === "sold_out";
+  const cancelled = event.status === "cancelled";
+  const remaining = event.remaining ?? null;
+  const soldOut = event.status === "sold_out" || (remaining !== null && remaining <= 0);
+  const lowStock = !soldOut && !cancelled && remaining !== null && remaining > 0 && remaining < 10;
+
   return (
     <Link
       to="/events/$slug"
@@ -30,7 +35,7 @@ export function EventCard({ event }: { event: EventCardData }) {
             src={event.image_url}
             alt={event.title}
             loading="lazy"
-            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className={`h-full w-full object-cover group-hover:scale-105 transition-transform duration-300 ${cancelled ? "grayscale opacity-60" : ""}`}
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-primary/30 to-foreground/30" />
@@ -40,9 +45,19 @@ export function EventCard({ event }: { event: EventCardData }) {
             {event.category_name}
           </span>
         )}
-        {soldOut && (
+        {cancelled && (
+          <span className="absolute top-3 right-3 inline-flex items-center px-2.5 py-1 rounded-full bg-destructive text-destructive-foreground text-[11px] font-bold uppercase">
+            Cancelled
+          </span>
+        )}
+        {!cancelled && soldOut && (
           <span className="absolute top-3 right-3 inline-flex items-center px-2.5 py-1 rounded-full bg-destructive text-destructive-foreground text-[11px] font-bold uppercase">
             Sold out
+          </span>
+        )}
+        {lowStock && (
+          <span className="absolute bottom-3 left-3 inline-flex items-center px-2.5 py-1 rounded-full bg-[#E31837] text-white text-[11px] font-bold uppercase">
+            🔥 Only {remaining} left
           </span>
         )}
       </div>
@@ -63,7 +78,7 @@ export function EventCard({ event }: { event: EventCardData }) {
               : ""}
           </span>
           <span className="btn-uppercase text-xs bg-primary text-primary-foreground px-3 py-2 rounded">
-            {soldOut ? "View" : "Get Tickets"}
+            {cancelled ? "View" : soldOut ? "View" : "Get Tickets"}
           </span>
         </div>
       </div>

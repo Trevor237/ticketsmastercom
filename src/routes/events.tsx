@@ -21,7 +21,7 @@ type EventRow = {
   id: string; slug: string; title: string; city: string; venue: string;
   starts_at: string; image_url: string | null; status: string;
   categories: { name: string; slug: string } | null;
-  ticket_types: { price_cents: number }[];
+  ticket_types: { price_cents: number; quantity_total: number; quantity_sold: number; active: boolean }[];
 };
 
 function EventsPage() {
@@ -34,8 +34,8 @@ function EventsPage() {
   const load = async () => {
     let query = supabase
       .from("events")
-      .select("id, slug, title, city, venue, starts_at, image_url, status, categories(name, slug), ticket_types(price_cents)")
-      .in("status", ["published", "sold_out"])
+      .select("id, slug, title, city, venue, starts_at, image_url, status, categories(name, slug), ticket_types(price_cents, quantity_total, quantity_sold, active)")
+      .in("status", ["published", "sold_out", "cancelled"])
       .order("starts_at", { ascending: true });
 
     if (q) query = query.ilike("title", `%${q}%`);
@@ -45,12 +45,16 @@ function EventsPage() {
     let rows = (data as EventRow[] | null) ?? [];
     if (category) rows = rows.filter((r) => r.categories?.slug === category);
 
-    setEvents(rows.map((e) => ({
-      id: e.id, slug: e.slug, title: e.title, city: e.city, venue: e.venue,
-      starts_at: e.starts_at, image_url: e.image_url, status: e.status,
-      category_name: e.categories?.name ?? null,
-      min_price_cents: e.ticket_types?.length ? Math.min(...e.ticket_types.map((t) => t.price_cents)) : null,
-    })));
+    setEvents(rows.map((e) => {
+      const active = e.ticket_types?.filter((t) => t.active) ?? [];
+      return {
+        id: e.id, slug: e.slug, title: e.title, city: e.city, venue: e.venue,
+        starts_at: e.starts_at, image_url: e.image_url, status: e.status,
+        category_name: e.categories?.name ?? null,
+        min_price_cents: active.length ? Math.min(...active.map((t) => t.price_cents)) : null,
+        remaining: active.length ? active.reduce((s, t) => s + Math.max(0, t.quantity_total - t.quantity_sold), 0) : null,
+      };
+    }));
 
     setCities([...new Set(rows.map((r) => r.city))].sort());
   };
