@@ -88,8 +88,15 @@ function EventDetail() {
     nav({ to: "/cart" });
   };
 
+  const cancelled = event.status === "cancelled";
+
   return (
     <SiteLayout>
+      {cancelled && (
+        <div className="bg-destructive text-destructive-foreground py-3 text-center font-bold uppercase tracking-wide">
+          This event has been cancelled
+        </div>
+      )}
       <div
         className="relative h-72 md:h-96 bg-cover bg-center"
         style={{
@@ -129,7 +136,9 @@ function EventDetail() {
         <aside className="lg:col-span-1">
           <div className="bg-card rounded-lg border border-border p-5">
             <h3 className="text-lg mb-4">Tickets</h3>
-            {event.status === "sold_out" || ticketTypes.length === 0 ? (
+            {cancelled ? (
+              <p className="text-destructive font-semibold">This event has been cancelled. Tickets are no longer available.</p>
+            ) : event.status === "sold_out" || ticketTypes.length === 0 ? (
               <p className="text-destructive font-semibold">Sold out</p>
             ) : (
               <div className="space-y-4">
