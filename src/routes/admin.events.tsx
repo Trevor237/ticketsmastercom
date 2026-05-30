@@ -29,6 +29,30 @@ function AdminEvents() {
     const { error } = await supabase.from("events").delete().eq("id", id);
     if (error) toast.error(error.message); else { toast.success("Deleted"); load(); }
   };
+  const duplicate = async (id: string) => {
+    const { data: src, error: e1 } = await supabase.from("events").select("*").eq("id", id).maybeSingle();
+    if (e1 || !src) return toast.error(e1?.message ?? "Not found");
+    const { id: _i, created_at: _c, updated_at: _u, created_by: _b, ...rest } = src as any;
+    const copy = {
+      ...rest,
+      title: `${src.title} (Copy)`,
+      slug: `${src.slug}-copy-${Math.random().toString(36).slice(2, 6)}`,
+      status: "draft",
+      featured: false,
+    };
+    const { data: newEvt, error: e2 } = await supabase.from("events").insert(copy).select().single();
+    if (e2) return toast.error(e2.message);
+    const { data: tts } = await supabase.from("ticket_types").select("*").eq("event_id", id);
+    if (tts?.length) {
+      const newTts = tts.map((t: any) => {
+        const { id: _ti, created_at: _tc, event_id: _te, quantity_sold: _qs, ...trest } = t;
+        return { ...trest, event_id: newEvt.id, quantity_sold: 0 };
+      });
+      await supabase.from("ticket_types").insert(newTts);
+    }
+    toast.success("Event duplicated as draft");
+    load();
+  };
 
   return (
     <div>
