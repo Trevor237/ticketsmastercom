@@ -11,17 +11,19 @@ type EventRow = {
   id: string; slug: string; title: string; city: string; venue: string;
   starts_at: string; image_url: string | null; status: string; featured: boolean;
   categories: { name: string } | null;
-  ticket_types: { price_cents: number }[];
+  ticket_types: { price_cents: number; quantity_total: number; quantity_sold: number; active: boolean }[];
 };
 
 function mapEvent(e: EventRow): EventCardData {
-  const min = e.ticket_types?.length
-    ? Math.min(...e.ticket_types.map((t) => t.price_cents))
+  const active = e.ticket_types?.filter((t) => t.active) ?? [];
+  const min = active.length ? Math.min(...active.map((t) => t.price_cents)) : null;
+  const remaining = active.length
+    ? active.reduce((s, t) => s + Math.max(0, t.quantity_total - t.quantity_sold), 0)
     : null;
   return {
     id: e.id, slug: e.slug, title: e.title, city: e.city, venue: e.venue,
     starts_at: e.starts_at, image_url: e.image_url, status: e.status,
-    category_name: e.categories?.name ?? null, min_price_cents: min,
+    category_name: e.categories?.name ?? null, min_price_cents: min, remaining,
   };
 }
 
@@ -31,10 +33,10 @@ function HomePage() {
   const [upcoming, setUpcoming] = useState<EventCardData[]>([]);
 
   const load = async () => {
-    const sel = "id, slug, title, city, venue, starts_at, image_url, status, featured, categories(name), ticket_types(price_cents)";
+    const sel = "id, slug, title, city, venue, starts_at, image_url, status, featured, categories(name), ticket_types(price_cents, quantity_total, quantity_sold, active)";
     const [{ data: feat }, { data: up }] = await Promise.all([
-      supabase.from("events").select(sel).eq("featured", true).in("status", ["published", "sold_out"]).order("starts_at", { ascending: true }).limit(6),
-      supabase.from("events").select(sel).in("status", ["published", "sold_out"]).gte("starts_at", new Date().toISOString()).order("starts_at", { ascending: true }).limit(12),
+      supabase.from("events").select(sel).eq("featured", true).in("status", ["published", "sold_out", "cancelled"]).order("starts_at", { ascending: true }).limit(6),
+      supabase.from("events").select(sel).in("status", ["published", "sold_out", "cancelled"]).gte("starts_at", new Date().toISOString()).order("starts_at", { ascending: true }).limit(12),
     ]);
     setFeatured((feat as EventRow[] | null)?.map(mapEvent) ?? []);
     setUpcoming((up as EventRow[] | null)?.map(mapEvent) ?? []);
