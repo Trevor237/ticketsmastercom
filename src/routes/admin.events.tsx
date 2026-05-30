@@ -81,6 +81,7 @@ function AdminEvents() {
                 </td>
                 <td className="px-4 py-3 text-right space-x-2">
                   <Link to="/admin/events/$id" params={{ id: r.id }} className="text-primary">Edit</Link>
+                  <button onClick={() => duplicate(r.id)} className="text-foreground">Duplicate</button>
                   <button onClick={() => remove(r.id)} className="text-destructive">Delete</button>
                 </td>
               </tr>
