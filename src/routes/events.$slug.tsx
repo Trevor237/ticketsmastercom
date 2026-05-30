@@ -38,7 +38,7 @@ function EventDetail() {
       .from("events")
       .select("id, slug, title, description, city, venue, address, starts_at, ends_at, image_url, banner_url, status, categories(name)")
       .eq("slug", slug)
-      .in("status", ["published", "sold_out"])
+      .in("status", ["published", "sold_out", "cancelled"])
       .maybeSingle();
     setEvent(e as Event | null);
     if (e) {
