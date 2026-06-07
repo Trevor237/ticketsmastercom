@@ -8,7 +8,7 @@ type AuthCtx = {
   loading: boolean;
   isAdmin: boolean;
   signOut: () => Promise<void>;
-  refreshRole: () => Promise<void>;
+  refreshRole: () => Promise<boolean>;
 };
 
 const Ctx = createContext<AuthCtx | null>(null);
