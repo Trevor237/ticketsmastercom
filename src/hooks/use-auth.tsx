@@ -20,28 +20,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchRole = async (uid: string | undefined) => {
-    if (!uid) return setIsAdmin(false);
-    const { data } = await supabase
+    if (!uid) {
+      setIsAdmin(false);
+      return false;
+    }
+
+    const { data, error } = await supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", uid)
       .eq("role", "admin")
       .maybeSingle();
-    setIsAdmin(!!data);
+
+    if (error) {
+      setIsAdmin(false);
+      return false;
+    }
+
+    const admin = !!data;
+    setIsAdmin(admin);
+    return admin;
   };
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+      setLoading(true);
       setSession(s);
       setUser(s?.user ?? null);
-      // defer to avoid deadlock
-      setTimeout(() => fetchRole(s?.user?.id), 0);
+
+      setTimeout(() => {
+        fetchRole(s?.user?.id).finally(() => setLoading(false));
+      }, 0);
     });
+
     supabase.auth.getSession().then(({ data }) => {
+      setLoading(true);
       setSession(data.session);
       setUser(data.session?.user ?? null);
       fetchRole(data.session?.user?.id).finally(() => setLoading(false));
     });
+
     return () => sub.subscription.unsubscribe();
   }, []);
 
