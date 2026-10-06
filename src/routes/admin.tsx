@@ -32,7 +32,7 @@ function AdminLayout() {
     <div className="min-h-screen flex bg-background">
       <aside className="w-60 bg-navbar text-white flex flex-col">
         <div className="px-5 py-5 font-display font-extrabold text-xl border-b border-white/10">
-          <Link to="/">Tiketsmaster</Link>
+          <Link to="/">Billetterie Afrique</Link>
           <div className="text-xs font-normal text-white/60 uppercase mt-1">Admin</div>
         </div>
         <nav className="flex-1 py-4">

@@ -3,7 +3,7 @@ import { Facebook, Instagram, Linkedin, Youtube, ShieldCheck, Lock, BadgeCheck, 
 
 export function Footer() {
   const settings = useSettings();
-  const name = settings?.platform_name ?? "Tiketsmaster";
+  const name = settings?.platform_name ?? "Billetterie Afrique";
 
   return (
     <footer className="bg-white text-foreground mt-16 border-t border-border">
@@ -24,7 +24,7 @@ export function Footer() {
         <div>
           <h4 className="text-foreground text-sm font-bold mb-3">Engagement qualité</h4>
           <ul className="space-y-2 text-sm text-foreground">
-            <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Billetterie 100% Officielle</li>
+            <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Paiement sécurisé</li>
             <li className="flex items-center gap-2"><Lock className="h-4 w-4 text-primary" /> Paiement 100% sécurisé</li>
             <li className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-primary" /> Avis Vérifiés</li>
           </ul>
@@ -65,9 +65,9 @@ export function Footer() {
           {[
             { Icon: HelpCircle, t: "Aide / FAQ / Contact", s: "Trouvez immédiatement des réponses à vos questions" },
             { Icon: Store, t: "Retrait en magasin", s: "Retirez gratuitement vos billets dans nos points de vente" },
-            { Icon: Map, t: "Choix sur plan 3D", s: "Réservez la place qui vous convient le mieux" },
+            { Icon: Map, t: "Choix de vos places", s: "Réservez la place qui vous convient le mieux" },
             { Icon: Umbrella, t: "Assurance annulation", s: "Réservez vos billets en toute confiance et sérénité" },
-            { Icon: Ticket, t: "Billetcollector™", s: "Le billet souvenir pour tous les fans" },
+            { Icon: Ticket, t: "Billet numérique", s: "Recevez votre billet directement sur votre téléphone" },
           ].map(({ Icon, t, s }) => (
             <div key={t} className="flex flex-col items-center gap-2">
               <Icon className="h-8 w-8 text-foreground" />

@@ -53,7 +53,7 @@ export function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 h-8">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5" /> Billetterie 100% Officielle et Garantie
+              <ShieldCheck className="h-3.5 w-3.5" /> Billetterie africaine · Paiement sécurisé
             </span>
             <span className="hidden md:inline-flex items-center gap-1 text-white/70">
               <Globe className="h-3.5 w-3.5" /> FR
@@ -62,7 +62,7 @@ export function Navbar() {
           </div>
           <div className="flex items-center gap-4">
             <Link to="/events" className="hover:underline">Aide</Link>
-            <span className="hidden md:inline text-[#c9a0dc]">● Bons plans</span>
+            <span className="hidden md:inline text-gold">● Bons plans</span>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -106,7 +106,7 @@ export function Navbar() {
       <div className="bg-white border-b border-border">
         <div className="mx-auto flex max-w-7xl items-center gap-6 px-4 h-16">
           <Link to="/" className="font-display text-2xl font-extrabold tracking-tight text-foreground shrink-0">
-            {settings?.platform_name ?? "Tiketsmaster"}
+            {settings?.platform_name ?? "Billetterie Afrique"}
             <sup className="text-[10px] ml-0.5">®</sup>
           </Link>
           <nav className="hidden md:flex items-center gap-6 flex-1">

@@ -63,7 +63,7 @@
   --card-foreground: oklch(0.18 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0 0);
-  --primary: oklch(0.55 0.21 256);                     /* #026CDF blue */
+  --primary: oklch(0.45 0.12 155);                       /* vert profond */
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.96 0 0);
   --secondary-foreground: oklch(0.18 0 0);
@@ -75,14 +75,14 @@
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9 0 0);                            /* #E5E5E5 */
   --input: oklch(0.9 0 0);
-  --ring: oklch(0.55 0.21 256);
+  --ring: oklch(0.45 0.12 155);
   --success: oklch(0.7 0.17 150);                      /* #2ECC71 */
   --warning: oklch(0.54 0.22 27);
   --gold: oklch(0.78 0.14 75);                         /* #F5A623 */
   --navbar: oklch(0 0 0);                              /* #000 */
   --navbar-foreground: oklch(1 0 0);
   --subnav: oklch(0.18 0 0);                           /* #1A1A1A */
-  --chart-1: oklch(0.55 0.21 256);
+  --chart-1: oklch(0.45 0.12 155);
   --chart-2: oklch(0.7 0.17 150);
   --chart-3: oklch(0.78 0.14 75);
   --chart-4: oklch(0.54 0.22 27);

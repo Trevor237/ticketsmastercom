@@ -69,10 +69,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Tiketsmaster — Tickets for concerts, sports, theater" },
+      { title: "Billetterie Afrique — Billets pour concerts, festivals, spectacles et sport" },
       { name: "description", content: "Find and buy tickets for concerts, sports, theater and more." },
-      { property: "og:title", content: "Tiketsmaster — Tickets for concerts, sports, theater" },
-      { name: "twitter:title", content: "Tiketsmaster — Tickets for concerts, sports, theater" },
+      { property: "og:title", content: "Billetterie Afrique — Billets pour concerts, festivals, spectacles et sport" },
+      { name: "twitter:title", content: "Billetterie Afrique — Billets pour concerts, festivals, spectacles et sport" },
       { property: "og:description", content: "Find and buy tickets for concerts, sports, theater and more." },
       { name: "twitter:description", content: "Find and buy tickets for concerts, sports, theater and more." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/eI0uTpC0vuZ9nyFOC9Uz2Wjt2B32/social-images/social-1780800715329-Billetterie_Ticketmaster.fr___Billets_et_places_de_Concert,_Spectacle,_Théâtre,_Sport_-_Google_Chrome_07_06_2026_04_45_48.webp" },
