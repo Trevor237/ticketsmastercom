@@ -58,7 +58,7 @@ function AdminEvents() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl">Events</h1>
-        <Link to="/admin/events/new" className="btn-uppercase bg-primary text-primary-foreground px-4 py-2.5 rounded">+ New event</Link>
+        <Link to="/admin/events/$id" params={{ id: "new" }} className="btn-uppercase bg-primary text-primary-foreground px-4 py-2.5 rounded">+ New event</Link>
       </div>
       <div className="bg-card border border-border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
