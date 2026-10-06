@@ -27,7 +27,7 @@ export function EventCard({ event }: { event: EventCardData }) {
     <Link
       to="/events/$slug"
       params={{ slug: event.slug }}
-      className="group flex flex-col bg-white rounded-lg overflow-hidden border border-border shadow-sm hover:shadow-md transition-shadow"
+      className="group flex flex-col bg-white rounded-[var(--radius-card)] overflow-hidden border border-border shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200"
     >
       <div className="aspect-[16/9] overflow-hidden bg-muted relative">
         {event.image_url ? (
@@ -47,17 +47,17 @@ export function EventCard({ event }: { event: EventCardData }) {
         )}
         {cancelled && (
           <span className="absolute top-3 right-3 inline-flex items-center px-2.5 py-1 rounded-full bg-destructive text-destructive-foreground text-[11px] font-bold uppercase">
-            Cancelled
+            Annulé
           </span>
         )}
         {!cancelled && soldOut && (
           <span className="absolute top-3 right-3 inline-flex items-center px-2.5 py-1 rounded-full bg-destructive text-destructive-foreground text-[11px] font-bold uppercase">
-            Sold out
+            Complet
           </span>
         )}
         {lowStock && (
           <span className="absolute bottom-3 left-3 inline-flex items-center px-2.5 py-1 rounded-full bg-[#E31837] text-white text-[11px] font-bold uppercase">
-            🔥 Only {remaining} left
+            🔥 Plus que {remaining} places
           </span>
         )}
       </div>
@@ -74,11 +74,11 @@ export function EventCard({ event }: { event: EventCardData }) {
         <div className="mt-auto pt-2 flex items-center justify-between">
           <span className="font-bold text-foreground">
             {event.min_price_cents != null
-              ? `From ${formatPrice(event.min_price_cents, event.currency ?? "EUR")}`
+              ? `Dès ${formatPrice(event.min_price_cents, event.currency ?? "EUR")}`
               : ""}
           </span>
           <span className="btn-uppercase text-xs bg-primary text-primary-foreground px-3 py-2 rounded">
-            {cancelled ? "View" : soldOut ? "View" : "Get Tickets"}
+            {cancelled ? "Voir" : soldOut ? "Voir" : "Réserver"}
           </span>
         </div>
       </div>
